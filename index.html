@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <nav class="flex items-end justify-end px-24 py-10">
+        <a href="/cart" class="font-bold" id="view-cart-button">View cart</a>
+    </nav>
+    <header class="py-24">
+        <h1 class="text-center text-3xl mb-1">Amazing Hackathon Webshop</h1>
+        <p class="text-center">Browse our list of products and purchase something for an even better hackathon
+            experience!</p>
+    </header>
+
+    <div class="bg-white">
+        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <h2 class="sr-only">Products</h2>
+
+            <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8" id="items">
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        const cart = [];
+        const items = [
+            {
+                id: 'add-to-cart-button-1',
+                title: 'Machined Mechanical Pencil',
+                price: '$15',
+                imageUrl: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg',
+                imageAlt: 'Hand holding black machined steel mechanical pencil with brass tip and top.',
+            },
+            {
+                id: 'add-to-cart-button-2',
+                title: 'Focus Paper Refill',
+                price: '$18',
+                imageUrl: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg',
+                imageAlt: 'Person using a pen to cross a task off a productivity paper card.',
+            },
+            {
+                id: 'add-to-cart-button-3',
+                title: 'Nomad Tumbler',
+                price: '$28',
+                imageUrl: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg',
+                imageAlt: 'Olive drab green insulated bottle with flared screw lid and flat top.',
+            },
+            {
+                id: 'add-to-cart-button-4',
+                title: 'Earthen Bottle',
+                price: '$48',
+                imageUrl: 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg',
+                imageAlt: 'Tall slender porcelain bottle with natural clay textured body and cork stopper.',
+            },
+        ]
+        const viewCartButton = document.getElementById('view-cart-button');
+        const itemsContainer = document.getElementById('items');
+
+        function addToCart(item) {
+            cart.push(item);
+            window.localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function isInCart(item) {
+            return cart.find(i => i.id === item.id);
+        }
+
+        function createItemElement(item) {
+            return `
+            <a href="#" class="group">
+                    <div
+                        class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="${item.imageUrl}"
+                            alt="${item.imageAlt}"
+                            class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <h3 class="mt-4 text-sm text-gray-700">${item.title}</h3>
+                    <p class="my-1 text-lg font-medium text-gray-900">${item.price}</p>
+                    <button class="rounded-full bg-sky-600 px-5 py-1 text-white" id="${item.id}">Add to cart</button>
+                </a>
+            `
+        }
+
+        items.forEach(item => {
+            itemsContainer.insertAdjacentHTML('beforeend', createItemElement(item));
+        });
+
+        window.localStorage.removeItem('cart');
+        document.querySelectorAll('[id^=add-to-cart-button]').forEach(element => {
+            element.addEventListener('click', () => {
+                addToCart(items.find(i => i.id === element.id));
+                element.classList.add('bg-gray-100');
+                element.disabled = true;
+                element.textContent = 'Added to cart';
+
+                viewCartButton.textContent = `View cart (${cart.length})`;
+            });
+        });
+        
+    </script>
+</body>
+</html>
