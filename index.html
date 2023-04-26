@@ -72,7 +72,7 @@
 
         function createItemElement(item) {
             return `
-            <a href="#" class="group">
+            <div class="group">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                         <img src="${item.imageUrl}"
@@ -82,7 +82,7 @@
                     <h3 class="mt-4 text-sm text-gray-700">${item.title}</h3>
                     <p class="my-1 text-lg font-medium text-gray-900">${item.price}</p>
                     <button class="rounded-full bg-sky-600 px-5 py-1 text-white" id="${item.id}">Add to cart</button>
-                </a>
+                </div>
             `
         }
 
@@ -94,7 +94,7 @@
         document.querySelectorAll('[id^=add-to-cart-button]').forEach(element => {
             element.addEventListener('click', () => {
                 addToCart(items.find(i => i.id === element.id));
-                element.classList.add('bg-gray-100');
+                element.classList.add('bg-gray-300');
                 element.disabled = true;
                 element.textContent = 'Added to cart';
 
